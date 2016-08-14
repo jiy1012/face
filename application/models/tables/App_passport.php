@@ -64,4 +64,19 @@ class App_passport extends FF_Tables
         $where = array('email'=>$email);
         return $this->get_one($where);
     }
+
+    public function update_field($uid,$update){
+        $where = array('uid'=>$uid);
+        foreach ($this->fields as $field) {
+            if (isset($modify[$field])){
+                $update[$field] = $modify[$field];
+            }
+        }
+        $update['updatetime'] = time();
+        $ret = $this->update($update, $where);
+        if ($ret){
+            return $this->affect_rows();
+        }
+        return 0;
+    }
 }
