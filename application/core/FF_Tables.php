@@ -23,8 +23,45 @@ class FF_Tables extends CI_Model
         parent::__construct();
         $this->table_name = strtolower(__CLASS__);
     }
-    public function init_db($db = 'default')
+    protected function init_db($db = 'default')
     {
         $this->table_db = $this->load->database($db , true);
+    }
+
+    protected function get_one($where)
+    {
+        $this->table_db->select($this->fields);
+        $this->table_db->where($where);
+        $this->table_db->from($this->table_name);
+        return $this->table_db->get()->row_array();
+    }
+
+    protected function get_all($where)
+    {
+        $this->table_db->select($this->fields);
+        $this->table_db->where($where);
+        $this->table_db->from($this->table_name);
+        return $this->table_db->get()->result_array();
+    }
+
+    protected function insert($row)
+    {
+        return $this->table_db->insert($row);
+    }
+    protected function last_insert_id()
+    {
+        return $this->table_db->insert_id();
+    }
+    protected function update($modify , $where)
+    {
+        $this->table_db->update($modify);
+        $this->table_db->where($where);
+        $this->table_db->from($this->table_name);
+        return $this->table_db->update();
+    }
+
+    protected function affect_rows()
+    {
+        return $this->table_db->affect_rows();
     }
 }
