@@ -13,7 +13,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_Loader $load CI class
  * @property CI_Config $config CI class
  */
-class FF_Model extends CI_Model
+class FF_Tables extends CI_Model
 {
+    protected $fields = array();
+    protected $table_db = null;
+    protected $table_name = null;
+    public function __construct()
+    {
+        parent::__construct();
 
+    }
+    public function init_db($db = 'default')
+    {
+        $this->table_db = $this->load->database($db , true);
+    }
 }

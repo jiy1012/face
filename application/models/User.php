@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Created by IntelliJ IDEA.
  * User: liuyi
  * Date: 16/8/14
- * Time: 下午4:51
+ * Time: 下午4:49
  *
  * * system load.
  * @property CI_Input $input CI class
@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_Loader $load CI class
  * @property CI_Config $config CI class
  */
-class FF_Model extends CI_Model
+class User extends FF_Model
 {
 
 }
