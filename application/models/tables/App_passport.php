@@ -19,7 +19,7 @@ class App_passport extends FF_Tables
     public function __construct()
     {
         parent::__construct();
-        $this->table_db = $this->init_db();
+        $this->init_db(__CLASS__);
         $this->fields = array(
             'uid',
             'email',

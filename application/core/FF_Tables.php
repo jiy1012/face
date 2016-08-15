@@ -21,11 +21,12 @@ class FF_Tables extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->table_name = strtolower(__CLASS__);
+
     }
-    protected function init_db($db = 'default')
+    protected function init_db($table,$db = 'default')
     {
         $this->table_db = $this->load->database($db , true);
+        $this->table_name = strtolower($table);
     }
 
     protected function get_one($where)

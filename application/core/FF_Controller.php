@@ -18,5 +18,7 @@ class FF_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        load_class('Model', 'core');
+        load_class('Tables', 'core');
     }
 }
