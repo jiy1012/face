@@ -46,13 +46,14 @@ class FF_Controller extends CI_Controller
                 $errno = func_get_arg(0);
                 $errno = is_numeric($errno) ? $errno : 0;
                 if ($errno == 0) {
+                    $errmsg = 'ok';
                     $data = func_get_arg(1);
                 } else {
                     $errmsg = func_get_arg(1);
                 }
                 break;
             default :
-                @list($errno, $data, $errmsg) = func_get_args();
+                @list($errno, $errmsg, $data) = func_get_args();
                 break;
         }
 

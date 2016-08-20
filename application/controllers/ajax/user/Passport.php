@@ -53,7 +53,7 @@ class Passport extends FF_Controller {
             }
             $uid = $this->User->regedit($user, '', '', $pass);
             if ($uid !== false){
-                $this->response();
+                $this->response(0,encode_sign_code($uid));
             }else{
                 $this->response('服务器错误,请稍后重试');
             }
@@ -64,7 +64,7 @@ class Passport extends FF_Controller {
             }
             $uid = $this->User->regedit('', $user, '', $pass);
             if ($uid !== false){
-                $this->response();
+                $this->response(0,encode_sign_code($uid));
             }else{
                 $this->response('服务器错误,请稍后重试');
             }
