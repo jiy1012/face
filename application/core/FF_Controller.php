@@ -21,4 +21,47 @@ class FF_Controller extends CI_Controller
         load_class('Model', 'core');
         load_class('Tables', 'core');
     }
+
+
+    /**
+     * ajax输出封装
+     * @param
+     */
+    protected function response()
+    {
+        $args_count = func_num_args();
+        $errno = 0;
+        $data = array();
+        $errmsg = '';
+        switch ($args_count) {
+            case 0 :
+                $errno = 0;
+                $errmsg = 'OK';
+                break;
+            case 1 :
+                $errno = 1;
+                $errmsg = func_get_arg(0);
+                break;
+            case 2 :
+                $errno = func_get_arg(0);
+                $errno = is_numeric($errno) ? $errno : 0;
+                if ($errno == 0) {
+                    $data = func_get_arg(1);
+                } else {
+                    $errmsg = func_get_arg(1);
+                }
+                break;
+            default :
+                @list($errno, $data, $errmsg) = func_get_args();
+                break;
+        }
+
+        $response = array(
+            'errno' => $errno,
+            'data' => $data,
+            'errmsg' => $errmsg
+        );
+        header('Content-type:application/json;charset=utf-8');
+        echo json_encode($response);
+    }
 }

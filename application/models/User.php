@@ -25,7 +25,14 @@ class User extends FF_Model
         $this->load->model('tables/App_passport');
     }
 
-    public function regedit($email= '' , $phone = '', $username = '',$password)
+    /**
+     * 注册函数
+     * @param string $email 邮箱
+     * @param string $phone 手机号
+     * @param string $username 用户名
+     * @param $password 密码
+     */
+    public function regedit($email= '' , $phone = '', $username = '', $password)
     {
         $uid = $this->Id_generator->generator_id();
         if ($uid){
@@ -37,9 +44,9 @@ class User extends FF_Model
                 'password'=>ff_password($password),
             );
             $this->App_passport->insert($user);
-        }else{
-
+            return $uid;
         }
+        return false;
     }
 
     public function checkuser($email= '' , $phone = '', $username = '')
