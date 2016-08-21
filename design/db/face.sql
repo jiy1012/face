@@ -11,7 +11,7 @@
  Target Server Version : 50714
  File Encoding         : utf-8
 
- Date: 08/14/2016 14:28:58 PM
+ Date: 08/21/2016 16:35:51 PM
 */
 
 SET NAMES utf8mb4;
@@ -29,10 +29,7 @@ CREATE TABLE `app_passport` (
   `password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
   `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `updatetime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `idx_email` (`email`),
-  UNIQUE KEY `idx_username` (`username`),
-  UNIQUE KEY `idx_phone` (`phone`)
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='注册账号密码表';
 
 -- ----------------------------
@@ -43,7 +40,7 @@ CREATE TABLE `id_generator` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '插入时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='id申请生成表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='id申请生成表';
 
 -- ----------------------------
 --  Table structure for `user_profile`
