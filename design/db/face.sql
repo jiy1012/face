@@ -11,7 +11,7 @@
  Target Server Version : 50714
  File Encoding         : utf-8
 
- Date: 08/21/2016 16:35:51 PM
+ Date: 08/21/2016 19:08:17 PM
 */
 
 SET NAMES utf8mb4;
@@ -49,6 +49,19 @@ DROP TABLE IF EXISTS `user_profile`;
 CREATE TABLE `user_profile` (
   `uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'uid',
   `nickname` varchar(128) NOT NULL DEFAULT '' COMMENT '昵称',
+  `head_img` varchar(128) NOT NULL DEFAULT '' COMMENT '头像url',
+  `twitter` varchar(512) NOT NULL DEFAULT '' COMMENT '说说',
+  `introduction` text NOT NULL COMMENT '个人简介',
+  `area` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '地区',
+  `profession` int(4) unsigned NOT NULL DEFAULT '0' COMMENT '行业',
+  `company` varchar(128) NOT NULL DEFAULT '' COMMENT '公司',
+  `job` varchar(128) NOT NULL DEFAULT '' COMMENT '职业',
+  `school` varchar(128) NOT NULL DEFAULT '' COMMENT '学校',
+  `major` varchar(56) NOT NULL DEFAULT '' COMMENT '专业',
+  `reg_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '注册ip',
+  `login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '登录ip',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updatetime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

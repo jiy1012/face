@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_Loader $load CI class
  * @property CI_Config $config CI class
  */
-class App_passport extends FF_Tables
+class User_profile extends FF_Tables
 {
 
     public function __construct()
@@ -22,10 +22,18 @@ class App_passport extends FF_Tables
         $this->init_db(__CLASS__);
         $this->fields = array(
             'uid',
-            'email',
-            'username',
-            'phone',
-            'password',
+            'nickname',
+            'head_img',
+            'twitter',
+            'introduction',
+            'area',
+            'profession',
+            'company',
+            'job',
+            'school',
+            'major',
+            'reg_ip',
+            'login_ip',
             'createtime',
             'updatetime',
         );
@@ -47,23 +55,12 @@ class App_passport extends FF_Tables
         return 0;
     }
 
-    public function get_one_by_phone($phone)
+    public function get_one($uid)
     {
-        $where = array('phone'=>$phone);
+        $where = array('uid'=>$uid);
         return $this->get_one($where);
     }
 
-    public function get_one_by_username($username)
-    {
-        $where = array('username'=>$username);
-        return $this->get_one($where);
-    }
-
-    public function get_one_by_email($email)
-    {
-        $where = array('email'=>$email);
-        return $this->get_one($where);
-    }
 
     public function update_field($uid,$modify){
         $where = array('uid'=>$uid);

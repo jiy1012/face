@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @property Id_generator $Id_generator
  * @property App_passport $App_passport
+ * @property User_profile $User_profile
  * @property session $session
  */
 class User extends FF_Model
@@ -24,6 +25,7 @@ class User extends FF_Model
         parent::__construct();
         $this->load->model('tables/Id_generator');
         $this->load->model('tables/App_passport');
+        $this->load->model('tables/User_profile');
 
     }
 
@@ -46,6 +48,7 @@ class User extends FF_Model
                 'password'=>ff_password($password),
             );
             $this->App_passport->insert($user);
+            $this->User_profile->insert(array('uid'=>$uid,'reg_ip'=>$this->input->ip_address()));
             return $uid;
         }
         return false;
@@ -75,11 +78,12 @@ class User extends FF_Model
     public function login($uid)
     {
         $updatetime = time();
-        $affectrows = $this->App_passport->update_field($uid,array('updatetime'=>$updatetime));
+        $affectrows = $this->App_passport->update_field($uid,array());
         if ($affectrows > 0 ){
             $array = array('uid'=>$uid,'logintime'=>$updatetime);
             $ticket = gen_user_ticket($array);
             $this->session->ticket = $ticket;
+            $this->User_profile->update_field($uid,array('login_ip'=>$this->input->ip_address()));
             return $updatetime;
         }else{
             return 0;
