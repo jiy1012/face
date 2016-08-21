@@ -64,13 +64,16 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
+                return false;
             }else{
                 $this->response('服务器错误,请稍后重试');
+                return false;
             }
         }elseif(is_phone($user)){
             $exists = $this->User->checkuser('',$user);
             if ($exists){
                 $this->response('该手机号已经被注册');
+                return false;
             }
             $uid = $this->User->regedit('', $user, '', $pass);
             if ($uid !== false){
@@ -78,8 +81,10 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
+                return false;
             }else{
                 $this->response('服务器错误,请稍后重试');
+                return false;
             }
         }
         $this->response('请输入手机号或者邮箱');
@@ -125,13 +130,16 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
+                return false;
             }else{
                 $this->response('服务器错误,请稍后重试');
+                return false;
             }
         }elseif(is_phone($user)){
             $exists = $this->User->checkuser('',$user);
             if (!$exists){
                 $this->response('该手机号还没有注册');
+                return false;
             }
             $check_password = $this->User->check_password($exists,$pass);
             if ($check_password === true){
@@ -140,8 +148,10 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
+                return false;
             }else{
                 $this->response('服务器错误,请稍后重试');
+                return false;
             }
         }
         $this->response('请输入手机号或者邮箱');
