@@ -55,14 +55,11 @@ class FF_Tables extends CI_Model
     }
     protected function update($modify , $where)
     {
-        $this->table_db->update($modify);
-        $this->table_db->where($where);
-        $this->table_db->from($this->table_name);
-        return $this->table_db->update();
+        return $this->table_db->update($this->table_name,$modify,$where);
     }
 
-    protected function affect_rows()
+    protected function affected_rows()
     {
-        return $this->table_db->affect_rows();
+        return $this->table_db->affected_rows();
     }
 }

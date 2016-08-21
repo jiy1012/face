@@ -75,7 +75,7 @@ class App_passport extends FF_Tables
         $update['updatetime'] = time();
         $ret = $this->update($update, $where);
         if ($ret){
-            return $this->affect_rows();
+            return $this->affected_rows();
         }
         return 0;
     }

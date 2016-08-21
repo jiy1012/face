@@ -19,5 +19,8 @@ class FF_Model extends CI_Model
     {
         parent::__construct();
         $this->load->helper('common');
+
     }
+
+
 }

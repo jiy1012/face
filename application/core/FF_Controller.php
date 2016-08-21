@@ -12,17 +12,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_Loader $helper CI class
  * @property CI_Loader $load CI class
  * @property CI_Config $config CI class
+ *
+ * @property session $session CI class
  */
 class FF_Controller extends CI_Controller
 {
+    protected $uid = 0;
+    protected $ticket = null;
+
     public function __construct()
     {
         parent::__construct();
         load_class('Model', 'core');
         load_class('Tables', 'core');
+        $this->load->library('session');
     }
 
+    protected function set_login_session($uid,$ticket)
+    {
+        $this->uid = $uid;
+        $this->ticket = $ticket;
+        $this->session->uid = $this->uid;
+        $this->session->ticket = $this->ticket;
+    }
 
+    protected function get_login_session($ticket)
+    {
+        $session_ticket = $this->session->ticket;
+        if (!$session_ticket && !$ticket)
+        {
+            return false;
+        }
+        $login_status = get_user_from_ticket($ticket);
+        if ($login_status === false){
+            return false;
+        }
+        $this->uid = $login_status['uid'];
+        $this->ticket = $ticket;
+    }
     /**
      * ajax输出封装
      * @param

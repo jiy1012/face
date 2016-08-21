@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @property Id_generator $Id_generator
  * @property App_passport $App_passport
+ * @property session $session
  */
 class User extends FF_Model
 {
@@ -23,6 +24,7 @@ class User extends FF_Model
         parent::__construct();
         $this->load->model('tables/Id_generator');
         $this->load->model('tables/App_passport');
+
     }
 
     /**
@@ -51,21 +53,36 @@ class User extends FF_Model
 
     public function checkuser($email= '' , $phone = '', $username = '')
     {
-        $ret = array();
+        $ret = null;
         if ($email != ''){
             $ret = $this->App_passport->get_one_by_email($email);
         }elseif($phone != ''){
             $ret = $this->App_passport->get_one_by_phone($phone);
         }elseif ($username != ''){
             $ret = $this->App_passport->get_one_by_username($username);
-        }else{
-
         }
         return $ret;
     }
 
-    public function login()
+    public function check_password($passport,$password)
     {
+        if ($passport['password'] == ff_password($password)){
+            return true;
+        }
+        return false;
+    }
 
+    public function login($uid)
+    {
+        $updatetime = time();
+        $affectrows = $this->App_passport->update_field($uid,array('updatetime'=>$updatetime));
+        if ($affectrows > 0 ){
+            $array = array('uid'=>$uid,'logintime'=>$updatetime);
+            $ticket = gen_user_ticket($array);
+            $this->session->ticket = $ticket;
+            return $updatetime;
+        }else{
+            return 0;
+        }
     }
 }

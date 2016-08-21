@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Passport extends FF_Controller {
 
+    protected $session_espire_time = 86400;
     public function __construct()
     {
         parent::__construct();
@@ -27,6 +28,12 @@ class Passport extends FF_Controller {
 
     public function regedit()
     {
+        $loginstatus = $this->check_login();
+        if ($loginstatus !== false)
+        {
+            $this->response('已经登录无需注册');
+            return false;
+        }
         $user = trim($this->input->post_get('name'));
         if (!$user){
             $this->response('请输入手机号或者邮箱');
@@ -53,7 +60,10 @@ class Passport extends FF_Controller {
             }
             $uid = $this->User->regedit($user, '', '', $pass);
             if ($uid !== false){
-                $this->response(0,encode_sign_code($uid));
+                $logintime = $this->User->login($uid);
+                $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
+                $this->set_login_session($uid,$ticket);
+                $this->response(0,$ticket);
             }else{
                 $this->response('服务器错误,请稍后重试');
             }
@@ -64,7 +74,10 @@ class Passport extends FF_Controller {
             }
             $uid = $this->User->regedit('', $user, '', $pass);
             if ($uid !== false){
-                $this->response(0,encode_sign_code($uid));
+                $logintime = $this->User->login($uid);
+                $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
+                $this->set_login_session($uid,$ticket);
+                $this->response(0,$ticket);
             }else{
                 $this->response('服务器错误,请稍后重试');
             }
@@ -73,15 +86,82 @@ class Passport extends FF_Controller {
         return;
     }
 
+    public function login()
+    {
+        $loginstatus = $this->check_login();
+        if ($loginstatus !== false)
+        {
+            $this->response('已经登录无需再次登录');
+            return false;
+        }
+        $user = trim($this->input->post_get('name'));
+        if (!$user){
+            $this->response('请输入手机号或者邮箱');
+            return;
+        }
+        $pass = trim($this->input->post_get('pass'));
+        if (!$pass){
+            $this->response('请输入密码');
+            return;
+        }
+        if ($this->need_code()){
+            $code = $this->input->post_get('code');
+            if (!$code){
+                $this->response('请输入验证码');
+                return;
+            }
+        }
+        $uid = 0;
+        if (is_email($user)){
+            $exists = $this->User->checkuser($user);
+            if (!$exists){
+                $this->response('该邮箱还没有注册');
+                return;
+            }
+            $check_password = $this->User->check_password($exists,$pass);
+            if ($check_password === true){
+                $uid = $exists['uid'];
+                $logintime = $this->User->login($uid);
+                $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
+                $this->set_login_session($uid,$ticket);
+                $this->response(0,$ticket);
+            }else{
+                $this->response('服务器错误,请稍后重试');
+            }
+        }elseif(is_phone($user)){
+            $exists = $this->User->checkuser('',$user);
+            if (!$exists){
+                $this->response('该手机号还没有注册');
+            }
+            $check_password = $this->User->check_password($exists,$pass);
+            if ($check_password === true){
+                $uid = $exists['uid'];
+                $logintime = $this->User->login($uid);
+                $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
+                $this->set_login_session($uid,$ticket);
+                $this->response(0,$ticket);
+            }else{
+                $this->response('服务器错误,请稍后重试');
+            }
+        }
+        $this->response('请输入手机号或者邮箱');
+        return;
+    }
+
+
+    private function check_login()
+    {
+        $ticket = $this->input->post_get('ticket');
+        $login_status = $this->get_login_session($ticket);
+        if ($login_status !== false)
+        {
+            return true;
+        }
+        return false;
+    }
     private function need_code()
     {
         return false;
     }
-    public function test()
-    {
-        $this->User->checkuser('1111111@163.com');
-        $this->User->checkuser('','18211111111');
-        $this->User->checkuser('','','1111012');
-//        $this->User->regedit('', , , )
-    }
+
 }

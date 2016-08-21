@@ -87,3 +87,5 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 // project define
 define('PASSWORD_SALT','659d19b7f70904a700f54dd94a9775fc');//@!@produced by ffsutdio@!@
+define('OPENSSL_ENCRYPT_METHOD','aes-256-cbc');
+define('OPENSSL_ENCRYPT_KEY','这是一个32位中文加密串');
