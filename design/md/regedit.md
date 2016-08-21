@@ -10,3 +10,35 @@
 
 # 登录 #
 登录验证 -> 取得ticket 
+
+
+## 接口: ##
+    全局参数:ticket 识别登录状态
+    标* 为必须参数
+
+#### 注册 ####
+    url/ajax/user/passport/regedit
+#### 参数: ####
+       name 用户名、手机、邮箱 *
+       pass 密码 *
+       code 验证码
+#### 返回 ####
+    {
+        "errno": 0,//非0报错
+        "data": "UjJ4cFJ6WlRObUpyU1ZBdlptSkNjVk01V0dWQmExQTBSVkZKUm0xdWJqSXdhVGt3YVhnME0yVm5WazFDYkhJd2FERkpUVVJSYTNJcmFFbE1ZbEpSUXpaRlprZFFlV0poWldabmJFRnFla1JwTUZWMFpHYzlQUT09",//ticket
+        "errmsg": "ok"//错误提示
+    }   
+
+
+#### 注册 ####
+    url/ajax/user/passport/login
+#### 参数: ####
+       name 用户名、手机、邮箱 *
+       pass 密码 *
+       code 验证码
+#### 返回 ####
+    {
+        "errno": 0,//非0报错
+        "data": "UjJ4cFJ6WlRObUpyU1ZBdlptSkNjVk01V0dWQmExQTBSVkZKUm0xdWJqSXdhVGt3YVhnME0yVm5WazFDYkhJd2FERkpUVVJSYTNJcmFFbE1ZbEpSUXpaRlprZFFlV0poWldabmJFRnFla1JwTUZWMFpHYzlQUT09",//ticket
+        "errmsg": "ok"//错误提示
+    }
