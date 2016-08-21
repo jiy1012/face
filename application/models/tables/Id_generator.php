@@ -29,7 +29,7 @@ class Id_generator extends FF_Tables
     public function generator_id()
     {
         $insert = array('createtime'=>time());
-        $ret = $this->table_db->insert($insert);
+        $ret = $this->table_db->insert($this->table_name,$insert);
         if ($ret){
             return $this->table_db->insert_id();
         }

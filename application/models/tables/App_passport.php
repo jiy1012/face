@@ -39,8 +39,8 @@ class App_passport extends FF_Tables
                 $insert[$field] = $array[$field];
             }
         }
-        $insert = array('createtime'=>time());
-        $ret = $this->insert($insert);
+        $insert['createtime']=time();
+        $ret = $this->table_db->insert($this->table_name,$insert);
         if ($ret){
             return $this->last_insert_id();
         }
