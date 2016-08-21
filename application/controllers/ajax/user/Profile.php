@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property User $User
  */
 
-class User extends FF_Controller {
+class Profile extends FF_Controller {
 
     protected $session_espire_time = 86400;
     private $update_fields = array(
