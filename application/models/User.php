@@ -89,4 +89,16 @@ class User extends FF_Model
             return 0;
         }
     }
+
+    public function get_user_by_uid($uid)
+    {
+        $user = $this->User_profile->get_one($uid);
+        return $user;
+    }
+
+    public function update_user_by_uid($uid,$modify)
+    {
+        $ret = $this->User_profile->update_field($uid,$modify);
+        return $ret;
+    }
 }

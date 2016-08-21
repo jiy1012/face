@@ -27,7 +27,16 @@ class FF_Controller extends CI_Controller
         load_class('Tables', 'core');
         $this->load->library('session');
     }
-
+    protected function check_login()
+    {
+        $ticket = $this->input->post_get('ticket');
+        $login_status = $this->get_login_session($ticket);
+        if ($login_status !== false)
+        {
+            return true;
+        }
+        return false;
+    }
     protected function set_login_session($uid,$ticket)
     {
         $this->uid = $uid;
@@ -49,6 +58,7 @@ class FF_Controller extends CI_Controller
         }
         $this->uid = $login_status['uid'];
         $this->ticket = $ticket;
+        return true;
     }
     /**
      * ajax输出封装
@@ -86,8 +96,8 @@ class FF_Controller extends CI_Controller
 
         $response = array(
             'errno' => $errno,
+            'errmsg' => $errmsg,
             'data' => $data,
-            'errmsg' => $errmsg
         );
         header('Content-type:application/json;charset=utf-8');
         echo json_encode($response);

@@ -32,7 +32,7 @@ class Passport extends FF_Controller {
         if ($loginstatus !== false)
         {
             $this->response('已经登录无需注册');
-            return false;
+            return;
         }
         $user = trim($this->input->post_get('name'));
         if (!$user){
@@ -64,16 +64,16 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
-                return false;
+                return;
             }else{
                 $this->response('服务器错误,请稍后重试');
-                return false;
+                return;
             }
         }elseif(is_phone($user)){
             $exists = $this->User->checkuser('',$user);
             if ($exists){
                 $this->response('该手机号已经被注册');
-                return false;
+                return;
             }
             $uid = $this->User->regedit('', $user, '', $pass);
             if ($uid !== false){
@@ -81,10 +81,10 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
-                return false;
+                return;
             }else{
                 $this->response('服务器错误,请稍后重试');
-                return false;
+                return;
             }
         }
         $this->response('请输入手机号或者邮箱');
@@ -97,7 +97,7 @@ class Passport extends FF_Controller {
         if ($loginstatus !== false)
         {
             $this->response('已经登录无需再次登录');
-            return false;
+            return;
         }
         $user = trim($this->input->post_get('name'));
         if (!$user){
@@ -130,16 +130,16 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
-                return false;
+                return;
             }else{
                 $this->response('服务器错误,请稍后重试');
-                return false;
+                return;
             }
         }elseif(is_phone($user)){
             $exists = $this->User->checkuser('',$user);
             if (!$exists){
                 $this->response('该手机号还没有注册');
-                return false;
+                return;
             }
             $check_password = $this->User->check_password($exists,$pass);
             if ($check_password === true){
@@ -148,27 +148,16 @@ class Passport extends FF_Controller {
                 $ticket = gen_user_ticket(array('uid'=>$uid,'logintime'=>$logintime));
                 $this->set_login_session($uid,$ticket);
                 $this->response(0,$ticket);
-                return false;
+                return;
             }else{
                 $this->response('服务器错误,请稍后重试');
-                return false;
+                return;
             }
         }
         $this->response('请输入手机号或者邮箱');
         return;
     }
 
-
-    private function check_login()
-    {
-        $ticket = $this->input->post_get('ticket');
-        $login_status = $this->get_login_session($ticket);
-        if ($login_status !== false)
-        {
-            return true;
-        }
-        return false;
-    }
     private function need_code()
     {
         return false;
