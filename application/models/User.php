@@ -92,7 +92,7 @@ class User extends FF_Model
 
     public function get_user_by_uid($uid)
     {
-        $user = $this->User_profile->get_one($uid);
+        $user = $this->User_profile->get_by_uid($uid);
         return $user;
     }
 

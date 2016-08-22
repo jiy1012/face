@@ -55,7 +55,7 @@ class User_profile extends FF_Tables
         return 0;
     }
 
-    public function get_one($uid)
+    public function get_by_uid($uid)
     {
         $where = array('uid'=>$uid);
         return $this->get_one($where);
