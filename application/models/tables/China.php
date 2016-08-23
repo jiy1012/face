@@ -43,4 +43,8 @@ class China extends FF_Tables
         return $this->get_all($where);
     }
 
+    public function get_all_table()
+    {
+        return $this->get_all(array());
+    }
 }
