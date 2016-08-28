@@ -45,6 +45,14 @@ class FF_Tables extends CI_Model
         return $this->table_db->get()->result_array();
     }
 
+    protected function get_list($where ,$limit ,$offset)
+    {
+        $this->table_db->select($this->fields);
+        $this->table_db->where($where);
+        $this->table_db->form($this->table_name);
+        $this->table_db->limit($limit ,$offset);
+        return $this->table_db->get()->result_array();
+    }
     protected function insert($row)
     {
         return $this->table_db->insert($row);
