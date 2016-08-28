@@ -35,8 +35,20 @@ class Ques extends FF_Controller {
             return false;
         }
         $title = trim($this->input->post_get('title'));
-        $content = $this->input->post_get('content');
+        $content = trim($this->input->post_get('content'));
         $catid = intval($this->input->post_get('catid'));
+        if (!$title){
+            $this->response('请输入标题');
+            return false;
+        }
+        if (!$content){
+            $this->response('请输入内容');
+            return false;
+        }
+        if (!$catid){
+            $this->response('请输入类别');
+            return false;
+        }
         $res = $this->User->add_quesion($title,$catid,$content,$this->uid);
         if ($res){
             $this->response(0,'ok',$res);
@@ -57,7 +69,22 @@ class Ques extends FF_Controller {
         $content = $this->input->post_get('content');
         $catid = intval($this->input->post_get('catid'));
         $id = intval($this->input->post_get('id'));
-
+        if (!$id){
+            $this->response('id错误');
+            return false;
+        }
+        if (!$title){
+            $this->response('请输入标题');
+            return false;
+        }
+        if (!$content){
+            $this->response('请输入内容');
+            return false;
+        }
+        if (!$catid){
+            $this->response('请输入类别');
+            return false;
+        }
         $row = $this->User->get_quesion($id);
         if (empty($row) || $row['author'] != $this->uid) {
             $this->response('没有编辑权限');
