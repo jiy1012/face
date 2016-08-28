@@ -18,6 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property User_profile $User_profile
  * @property session $session
  * @property Question $Question
+ * @property Answer $Answer
  */
 class User extends FF_Model
 {
@@ -28,6 +29,7 @@ class User extends FF_Model
         $this->load->model('tables/App_passport');
         $this->load->model('tables/User_profile');
         $this->load->model('tables/Question');
+        $this->load->model('tables/Answer');
 
     }
 
@@ -123,5 +125,25 @@ class User extends FF_Model
     public function get_quesion($id)
     {
         return $this->Question->get_by_id($id);
+    }
+
+    public function get_answer($id)
+    {
+        return $this->Answer->get_by_id($id);
+    }
+    public function add_answer($pid,$content,$author)
+    {
+        $array = array('pid'=>$pid,'content'=>$content,'author'=>$author);
+        return $this->Answer->insert($array);
+    }
+    public function modify_answer($id,$content)
+    {
+        $array = array('content'=>$content);
+        return $this->Answer->update_field($id,$array);
+    }
+    public function delete_answer($id)
+    {
+        $array = array('delete'=>1);
+        return $this->Answer->update_field($id,$array);
     }
 }
