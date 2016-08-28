@@ -99,5 +99,29 @@ class Ques extends FF_Controller {
         return;
     }
 
-
+    public function del()
+    {
+        $loginstatus = $this->check_login();
+        if ($loginstatus === false){
+            $this->response('请先登录');
+            return false;
+        }
+        $id = intval($this->input->post_get('id'));
+        if (!$id){
+            $this->response('id错误');
+            return false;
+        }
+        $row = $this->User->get_quesion($id);
+        if (empty($row) || $row['author'] != $this->uid) {
+            $this->response('没有编辑权限');
+            return;
+        }
+        $ret = $this->User->delete_quesion($id);
+        if ($ret > 0){
+            $this->response();
+            return;
+        }
+        $this->response('更新失败,请稍后重试');
+        return;
+    }
 }
