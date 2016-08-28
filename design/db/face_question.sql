@@ -23,16 +23,16 @@ DROP TABLE IF EXISTS `question`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `question` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `catid` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `catid` int(11) unsigned NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text,
-  `createtime` int(11) NOT NULL,
-  `updatetime` int(11) NOT NULL,
-  `like` int(11) NOT NULL,
-  `dislike` int(11) NOT NULL,
-  `author` bigint(20) NOT NULL,
-  `delete` tinyint(1) NOT NULL DEFAULT '0',
+  `createtime` int(11) unsigned NOT NULL,
+  `updatetime` int(11) unsigned NOT NULL,
+  `like` int(11) unsigned NOT NULL,
+  `dislike` int(11) unsigned NOT NULL,
+  `author` bigint(20) unsigned NOT NULL,
+  `delete` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `key_cat` (`catid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -47,4 +47,4 @@ CREATE TABLE `question` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-28 22:04:44
+-- Dump completed on 2016-08-28 22:53:32

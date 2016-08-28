@@ -16,17 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `id_generator`
+-- Table structure for table `answer`
 --
 
-DROP TABLE IF EXISTS `id_generator`;
+DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `id_generator` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '插入时间',
+CREATE TABLE `answer` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `qid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `content` mediumtext,
+  `createtime` int(11) unsigned NOT NULL,
+  `updatetime` int(11) unsigned NOT NULL,
+  `author` bigint(20) unsigned NOT NULL,
+  `like` int(11) unsigned NOT NULL,
+  `dislike` int(11) unsigned NOT NULL,
+  `delete` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='id申请生成表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -38,4 +45,4 @@ CREATE TABLE `id_generator` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-28 22:53:30
+-- Dump completed on 2016-08-28 22:53:31
