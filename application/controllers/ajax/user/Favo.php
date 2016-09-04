@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property User $User
  */
 
-class Answ extends FF_Controller {
+class Favo extends FF_Controller {
 
     protected $session_espire_time = 86400;
 
@@ -34,55 +34,27 @@ class Answ extends FF_Controller {
             $this->response('请先登录');
             return false;
         }
-        $content = trim($this->input->post_get('content'));
-        $qid = intval($this->input->post_get('qid'));
-        if (!$qid){
-            $this->response('问题id错误');
+        $type = trim($this->input->post_get('type'));
+        $withid = intval($this->input->post_get('withid'));
+        if (!$withid){
+            $this->response('id错误');
             return false;
         }
-        if (!$content){
-            $this->response('请输入内容');
+        if (!$type){
+            $this->response('type错误');
             return false;
         }
-
-        $res = $this->User->add_answer($qid,$content,$this->uid);
+        $have = $this->User->get_favourite_list($this->uid,array('type'=>$type,'withid'=>$withid,'status'=>1));
+        if ($have){
+            $this->response(0,'ok',array_pop($have));
+            return;
+        }
+        $res = $this->User->add_favourite($type, $withid, $this->uid);
         if ($res){
             $this->response(0,'ok',$res);
             return;
         }
         $this->response('服务错误,请稍后重试');
-        return;
-    }
-
-    public function edit()
-    {
-        $loginstatus = $this->check_login();
-        if ($loginstatus === false){
-            $this->response('请先登录');
-            return false;
-        }
-        $content = trim($this->input->post_get('content'));
-        $id = intval($this->input->post_get('id'));
-        if (!$id){
-            $this->response('id错误');
-            return false;
-        }
-        if (!$content){
-            $this->response('请输入内容');
-            return false;
-        }
-
-        $row = $this->User->get_answer($id);
-        if (empty($row) || $row['author'] != $this->uid) {
-            $this->response('没有编辑权限');
-            return;
-        }
-        $ret = $this->User->modify_answer($id,$content);
-        if ($ret > 0){
-            $this->response();
-            return;
-        }
-        $this->response('更新失败,请稍后重试');
         return;
     }
 
@@ -98,12 +70,13 @@ class Answ extends FF_Controller {
             $this->response('id错误');
             return false;
         }
-        $row = $this->User->get_quesion($id);
-        if (empty($row) || $row['author'] != $this->uid) {
+
+        $row = $this->User->get_favourite($id);
+        if (empty($row) || $row['userid'] != $this->uid) {
             $this->response('没有编辑权限');
             return;
         }
-        $ret = $this->User->delete_quesion($id);
+        $ret = $this->User->delete_favourite($id);
         if ($ret > 0){
             $this->response();
             return;
@@ -111,4 +84,5 @@ class Answ extends FF_Controller {
         $this->response('更新失败,请稍后重试');
         return;
     }
+    
 }

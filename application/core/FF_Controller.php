@@ -20,6 +20,8 @@ class FF_Controller extends CI_Controller
     protected $uid = 0;
     protected $ticket = null;
 
+    protected $page_size = 10;
+    
     public function __construct()
     {
         parent::__construct();

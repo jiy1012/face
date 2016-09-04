@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property session $session
  * @property Question $Question
  * @property Answer $Answer
+ * @property Favourite $Favourite
  */
 class User extends FF_Model
 {
@@ -30,6 +31,7 @@ class User extends FF_Model
         $this->load->model('tables/User_profile');
         $this->load->model('tables/Question');
         $this->load->model('tables/Answer');
+        $this->load->model('tables/Favourite');
 
     }
 
@@ -121,19 +123,29 @@ class User extends FF_Model
         $array = array('delete'=>1);
         return $this->Question->update_field($id,$array);
     }
-
     public function get_quesion($id)
     {
         return $this->Question->get_by_id($id);
     }
+    public function get_question_list($user,$where,$limit,$offset)
+    {
+        $where['author'] = $user;
+        return $this->Question->get_by_where($where,$limit,$offset);
+    }
+    public function get_question_counts($user,$where)
+    {
+        $where['author'] = $user;
+        return $this->Question->count_result($where);
+    }
+    
 
     public function get_answer($id)
     {
         return $this->Answer->get_by_id($id);
     }
-    public function add_answer($pid,$content,$author)
+    public function add_answer($qid,$content,$author)
     {
-        $array = array('pid'=>$pid,'content'=>$content,'author'=>$author);
+        $array = array('qid'=>$qid,'content'=>$content,'author'=>$author);
         return $this->Answer->insert($array);
     }
     public function modify_answer($id,$content)
@@ -145,5 +157,29 @@ class User extends FF_Model
     {
         $array = array('delete'=>1);
         return $this->Answer->update_field($id,$array);
+    }
+
+    public function add_favourite($type,$id,$user)
+    {
+        $array = array('type'=>$type,'withid'=>$id,'userid'=>$user);
+        return $this->Favourite->insert($array);
+    }
+    public function delete_favourite($id)
+    {
+        $array = array('status'=>1);
+        return $this->Favourite->update_field($id,$array);
+    }
+    public function modify_favourite($id,$modify)
+    {
+        return $this->Favourite->update_field($id, $modify);
+    }
+    public function get_favourite($id)
+    {
+        return $this->Favourite->get_by_id($id);
+    }
+    public function get_favourite_list($user,$where,$limit = 10,$offset=0)
+    {
+        $where['userid'] = $user;
+        return $this->Favourite->get_by_where($where,$limit,$offset);
     }
 }

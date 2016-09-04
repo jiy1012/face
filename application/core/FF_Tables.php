@@ -23,13 +23,13 @@ class FF_Tables extends CI_Model
         parent::__construct();
 
     }
-    protected function init_db($table,$db = 'default')
+    public function init_db($table,$db = 'default')
     {
         $this->table_db = $this->load->database($db , true);
         $this->table_name = strtolower($table);
     }
 
-    protected function get_one($where)
+    public function get_one($where)
     {
         $this->table_db->select($this->fields);
         $this->table_db->where($where);
@@ -37,7 +37,7 @@ class FF_Tables extends CI_Model
         return $this->table_db->get()->row_array();
     }
 
-    protected function get_all($where)
+    public function get_all($where)
     {
         $this->table_db->select($this->fields);
         $this->table_db->where($where);
@@ -49,24 +49,32 @@ class FF_Tables extends CI_Model
     {
         $this->table_db->select($this->fields);
         $this->table_db->where($where);
-        $this->table_db->form($this->table_name);
+        $this->table_db->from($this->table_name);
         $this->table_db->limit($limit ,$offset);
         return $this->table_db->get()->result_array();
     }
-    protected function insert($row)
+
+    public function count_result($where)
+    {
+        $this->table_db->where($where);
+        $this->table_db->from($this->table_name);
+        return $this->table_db->count_all_results();
+    }
+
+    public function insert($row)
     {
         return $this->table_db->insert($row);
     }
-    protected function last_insert_id()
+    public function last_insert_id()
     {
         return $this->table_db->insert_id();
     }
-    protected function update($modify , $where)
+    public function update($modify , $where)
     {
         return $this->table_db->update($this->table_name,$modify,$where);
     }
 
-    protected function affected_rows()
+    public function affected_rows()
     {
         return $this->table_db->affected_rows();
     }
