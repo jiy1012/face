@@ -182,4 +182,9 @@ class User extends FF_Model
         $where['userid'] = $user;
         return $this->Favourite->get_by_where($where,$limit,$offset);
     }
+    public function get_favourite_counts($user,$where)
+    {
+        $where['userid'] = $user;
+        return $this->Favourite->count_result($where);
+    }
 }

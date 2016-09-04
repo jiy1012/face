@@ -84,5 +84,19 @@ class Favo extends FF_Controller {
         $this->response('更新失败,请稍后重试');
         return;
     }
-    
+    public function flist()
+    {
+        $loginstatus = $this->check_login();
+        if ($loginstatus === false){
+            $this->response('请先登录');
+            return false;
+        }
+        $page_index = intval($this->input->post_get('page_index'));
+        $page_size = $this->page_size;
+        $offset = ($page_index-1)*$this->page_size;
+        $offset < 0 && $offset = 0;
+        $list = $this->User->get_favourite_list($this->uid,array(),$page_size,$offset);
+        $count = $this->User->get_favourite_counts($this->uid,array());
+        $this->response(0,'ok',array('list'=>$list,'count'=>$count));
+    }
 }

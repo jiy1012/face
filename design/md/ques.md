@@ -85,3 +85,23 @@ curl 'http://127.0.0.1/face/ajax/user/favo/del?id=1'|jq
   "errmsg": "OK",
   "data": []
 }
+收藏列表
+curl 'http://127.0.0.1/face/ajax/user/favo/flist?page_index=1'|jq
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "data": {
+    "list": [
+      {
+        "id": "1",
+        "type": "1",
+        "withid": "2",
+        "userid": "0",
+        "status": "1",
+        "createtime": "1473004338",
+        "updatetime": "1473004451"
+      }
+    ],
+    "count": 1
+  }
+}
