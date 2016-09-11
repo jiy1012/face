@@ -49,4 +49,17 @@ class D_ques extends FF_Controller {
         $this->response(0,'ok',array('question'=>$qdetail,'alist'=>$answer,'acount'=>$answer_count));
         return;
     }
+
+    public function alist()
+    {
+        $qid = intval($this->input->post_get('qid'));
+        $page_index = intval($this->input->post_get('page_index'));
+        $page_size = $this->page_size;
+        $offset = ($page_index-1)*$this->page_size;
+        $offset < 0 && $offset = 0;
+        $answer = $this->Defaultpage->get_answer_list($qid,$page_size,$offset);
+        $answer_count = $this->Defaultpage->get_answer_count($qid);
+        $this->response(0,'ok',array('list'=>$answer,'count'=>$answer_count));
+        return;
+    }
 }
