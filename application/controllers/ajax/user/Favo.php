@@ -98,5 +98,6 @@ class Favo extends FF_Controller {
         $list = $this->User->get_favourite_list($this->uid,array(),$page_size,$offset);
         $count = $this->User->get_favourite_counts($this->uid,array());
         $this->response(0,'ok',array('list'=>$list,'count'=>$count));
+        return true;
     }
 }
